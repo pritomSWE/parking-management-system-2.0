@@ -1,0 +1,202 @@
+//PARKING MANAGEMENT SYSTEM
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX_USERNAME_LENGTH 20
+#define MAX_PASSWORD_LENGTH 20
+
+int menu();
+void rickshaw();
+void cycle();
+void bus();
+void car();
+void bike();
+void showDetails();
+void deleteData();
+void login();
+void setUsernameAndPassword();
+int authenticate(char *username, char *password);
+
+int numRickshaws = 0, numCycles = 0, numBuses = 0, numCars = 0, numBikes = 0;
+int totalAmount = 0, totalVehicles = 0;
+char username[MAX_USERNAME_LENGTH];
+char password[MAX_PASSWORD_LENGTH];
+
+void setUsernameAndPassword();
+void login();
+
+
+int main()
+{
+
+    setUsernameAndPassword();
+    login();
+
+    FILE *details = fopen("perk_details.txt", "a");
+    if (details == NULL)
+    {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    fprintf(details, "\n\nLOGIN: %s %s\n", username, password);
+    fclose(details);
+
+    while (1)
+    {
+        int choice = menu();
+
+        switch (choice)
+        {
+        case 1:
+            rickshaw();
+            break;
+        case 2:
+            cycle();
+            break;
+        case 3:
+            bus();
+            break;
+        case 4:
+            car();
+            break;
+        case 5:
+            bike();
+            break;
+        case 6:
+            showDetails();
+            break;
+        case 7:
+            deleteData();
+            break;
+        case 8:
+            printf("THANKS FOR JOINING US\n");
+            exit(0);
+        default:
+            printf("\nInvalid choice\n");
+        }
+    }
+
+    return 0;
+}
+
+int menu()
+{
+    int choice;
+    printf("\n1. Enter Rickshaw (50)\n");
+    printf("2. Enter Cycle (20)\n");
+    printf("3. Enter Bus (100)\n");
+    printf("4. Enter Car (90)\n");
+    printf("5. Enter Bike (80)\n");
+    printf("6. Show status\n");
+    printf("7. Delete data\n");
+    printf("8. Exit\n");
+    printf("\nEnter your choice: ");
+    scanf("%d", &choice);
+    return choice;
+}
+
+void rickshaw()
+{
+    printf("Entry Success!\n");
+    numRickshaws++;
+    totalAmount += 50;
+    totalVehicles++;
+}
+
+void cycle()
+{
+    printf("Entry Success!\n");
+    numCycles++;
+    totalAmount += 20;
+    totalVehicles++;
+}
+
+void bus()
+{
+    printf("Entry Success!\n");
+    numBuses++;
+    totalAmount += 100;
+    totalVehicles++;
+}
+
+void car()
+{
+    printf("Entry Success!\n");
+    numCars++;
+    totalAmount += 90;
+    totalVehicles++;
+}
+
+void bike()
+{
+    printf("Entry Success!\n");
+    numBikes++;
+    totalAmount += 80;
+    totalVehicles++;
+}
+
+void showDetails()
+{
+    printf("\nEntered number of Buses: %d\n", numBuses);
+    printf("Entered number of Rickshaws: %d\n", numRickshaws);
+    printf("Entered number of Cycles: %d\n", numCycles);
+    printf("Entered number of Cars: %d\n", numCars);
+    printf("Entered number of Bikes: %d\n", numBikes);
+    printf("Total number of vehicles: %d\n", totalVehicles);
+    printf("Total gained amount: %d\n", totalAmount);
+}
+
+void deleteData()
+{
+    numRickshaws = 0;
+    numCycles = 0;
+    numBuses = 0;
+    numCars = 0;
+    numBikes = 0;
+    totalAmount = 0;
+    totalVehicles = 0;
+    printf("Data deleted successfully.\n");
+}
+
+void setUsernameAndPassword()
+{
+    printf("REGISTER YOURSELF: ");
+    printf("\nSet username: ");
+    scanf("%s", username);
+    printf("Set password: ");
+    scanf("%s", password);
+}
+
+void login()
+{
+    printf("ENTER USERNAME & PASSWORD FOR LOG IN: ");
+    char inputUsername[MAX_USERNAME_LENGTH];
+    char inputPassword[MAX_PASSWORD_LENGTH];
+    printf("\nEnter username: ");
+    scanf("%s", inputUsername);
+    printf("Enter password: ");
+    scanf("%s", inputPassword);
+
+    if (authenticate(inputUsername, inputPassword))
+    {
+        printf("Login successful!\n");
+    }
+    else
+    {
+        printf("Invalid username or password. Exiting...\n");
+        exit(0);
+    }
+}
+
+int authenticate(char *inputUsername, char *inputPassword)
+{
+
+    if (strcmp(username, inputUsername) == 0 && strcmp(password, inputPassword) == 0)
+        return 1;
+    else
+        return 0;
+}
